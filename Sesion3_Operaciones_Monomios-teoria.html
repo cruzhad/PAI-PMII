@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Operaciones con Monomios - Teoría y Explorador | Pensamiento Matemático II</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Poppins', sans-serif; min-height: 100vh; background: linear-gradient(135deg, #fff7ed 0%, #fef3c7 50%, #fef2f2 100%); padding: 1rem; }
+        .mono { font-family: 'Space Mono', monospace; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .header { background: white; border-radius: 1.5rem; box-shadow: 0 20px 50px rgba(0,0,0,0.1); padding: 2rem; margin-bottom: 2rem; border: 4px solid #fb923c; animation: fadeIn 0.5s ease-in; }
+        .header-content { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+        .header h1 { font-size: 2.5rem; font-weight: 800; background: linear-gradient(135deg, #ea580c, #dc2626); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 0.5rem; }
+        .header p { color: #6b7280; font-size: 1.125rem; }
+        .header .subtitle { color: #ea580c; font-weight: 600; margin-top: 0.25rem; }
+        .header-icon { background: linear-gradient(135deg, #fb923c, #ef4444); padding: 1rem; border-radius: 1rem; width: 80px; height: 80px; display: flex; align-items: center; justify-content: center; font-size: 3rem; }
+        .tabs { display: flex; gap: 0.75rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+        .tab-button { display: flex; align-items: center; gap: 0.5rem; padding: 1rem 1.5rem; border-radius: 0.75rem; font-weight: 700; font-size: 1.125rem; border: none; cursor: pointer; transition: all 0.3s cubic-bezier(0.4,0,0.2,1); background: white; color: #374151; }
+        .tab-button:hover { transform: translateY(-2px); background: #fed7aa; }
+        .tab-button.active { background: linear-gradient(135deg, #f97316, #ea580c); color: white; box-shadow: 0 10px 25px rgba(249,115,22,0.3); }
+        .content-section { display: none; animation: fadeIn 0.5s ease-in; }
+        .content-section.active { display: block; }
+        .card { background: white; border-radius: 1rem; box-shadow: 0 10px 30px rgba(0,0,0,0.1); padding: 2rem; transition: all 0.3s ease; }
+        .card:hover { transform: translateY(-4px); box-shadow: 0 20px 40px rgba(0,0,0,0.15); }
+        .teoria-card { border-left: 8px solid #ea580c; }
+        .teoria-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; }
+        .teoria-header h2 { font-size: 1.875rem; font-weight: 700; color: #1f2937; }
+        .copy-box { background: #fef3c7; border: 4px solid #fbbf24; border-radius: 0.75rem; padding: 1.5rem; margin-bottom: 1.5rem; }
+        .copy-box h3 { color: #c2410c; font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem; }
+        .copy-box p { color: #374151; font-size: 1.125rem; line-height: 1.75; margin-bottom: 1rem; }
+        .concept-card { background: white; padding: 1rem; border-radius: 0.5rem; border-left: 4px solid #fb923c; margin-bottom: 1rem; }
+        .concept-card h4 { font-weight: 700; font-size: 1.125rem; color: #1f2937; margin-bottom: 0.5rem; }
+        .concept-card p { color: #374151; }
+        .rules-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; }
+        .rule-item { background: white; padding: 1rem; border-radius: 0.5rem; }
+        .rule-item .label { color: #6b7280; margin-bottom: 0.35rem; font-size: 0.95rem; }
+        .rule-item .formula { color: #ea580c; font-weight: 700; font-size: 1.15rem; }
+        .steps-list { margin-top: 0.5rem; }
+        .steps-list p { margin-bottom: 0.35rem; color: #374151; }
+        .explorador-card { border-top: 8px solid #ea580c; }
+        .explorador-header { margin-bottom: 1.5rem; }
+        .explorador-header h2 { font-size: 1.875rem; font-weight: 700; color: #1f2937; margin-bottom: 0.5rem; }
+        .explorador-header p { font-size: 1.125rem; color: #6b7280; }
+        .explorador-header strong { color: #ea580c; }
+        .examples-grid { display: flex; flex-direction: column; gap: 1.5rem; }
+        .example-card { border-radius: 0.75rem; padding: 1.5rem; border: 4px solid; transition: all 0.3s ease; }
+        .example-card:hover { transform: translateY(-4px); box-shadow: 0 20px 40px rgba(0,0,0,0.15); }
+        .example-card.orange { background: linear-gradient(135deg, #fed7aa, #fef3c7); border-color: #fb923c; }
+        .example-card.blue { background: linear-gradient(135deg, #dbeafe, #cffafe); border-color: #60a5fa; }
+        .example-card.green { background: linear-gradient(135deg, #d1fae5, #a7f3d0); border-color: #34d399; }
+        .example-card.purple { background: linear-gradient(135deg, #e9d5ff, #fbcfe8); border-color: #a855f7; }
+        .example-card.red { background: linear-gradient(135deg, #fecaca, #fed7aa); border-color: #ef4444; }
+        .example-header { display: flex; gap: 1rem; align-items: flex-start; }
+        .example-number { color: white; border-radius: 50%; width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.25rem; flex-shrink: 0; }
+        .example-number.orange { background: #ea580c; }
+        .example-number.blue { background: #3b82f6; }
+        .example-number.green { background: #10b981; }
+        .example-number.purple { background: #a855f7; }
+        .example-number.red { background: #ef4444; }
+        .example-content { flex: 1; }
+        .example-title { font-size: 1.5rem; font-weight: 700; color: #1f2937; margin-bottom: 0.75rem; }
+        .example-drawing { background: white; padding: 1rem; border-radius: 0.5rem; text-align: center; margin-bottom: 1rem; }
+        .example-drawing .emoji { font-size: 4rem; margin-bottom: 0.5rem; }
+        .example-drawing .caption { font-size: 0.875rem; color: #6b7280; }
+        .example-situation { color: #374151; font-size: 1.125rem; margin-bottom: 1rem; }
+        .formula-box { background: white; padding: 1rem; border-radius: 0.5rem; margin-bottom: 0.75rem; }
+        .formula-box .label { color: #6b7280; margin-bottom: 0.5rem; }
+        .formula-box .formula { font-size: 1.4rem; font-weight: 700; }
+        .formula-box.orange .formula { color: #ea580c; }
+        .formula-box.blue .formula { color: #3b82f6; }
+        .formula-box.green .formula { color: #10b981; }
+        .formula-box.purple .formula { color: #a855f7; }
+        .formula-box.red .formula { color: #ef4444; }
+        .components-box { background: #f3f4f6; border-radius: 0.5rem; padding: 1rem; margin-top: 0.75rem; }
+        .components-box .tag { display: inline-block; background: white; border-radius: 9999px; padding: 0.35rem 0.9rem; margin: 0.2rem; font-size: 0.95rem; font-weight: 600; color: #1f2937; border: 2px solid #e5e7eb; }
+        .quiz-container { background: white; border-radius: 1rem; box-shadow: 0 10px 30px rgba(0,0,0,0.1); padding: 2rem; text-align: center; }
+        .quiz-icon { width: 96px; height: 96px; margin: 0 auto 1.5rem; font-size: 5rem; }
+        .quiz-title { font-size: 2.5rem; font-weight: 700; color: #1f2937; margin-bottom: 1rem; }
+        .quiz-subtitle { font-size: 1.25rem; color: #6b7280; margin-bottom: 1.5rem; }
+        .instructions-box { background: #fef3c7; border: 4px solid #fbbf24; border-radius: 0.75rem; padding: 1.5rem; margin-bottom: 2rem; max-width: 600px; margin-left: auto; margin-right: auto; }
+        .instructions-box h3 { font-weight: 700; font-size: 1.125rem; color: #1f2937; margin-bottom: 0.75rem; }
+        .instructions-box ul { text-align: left; list-style: none; padding-left: 0; }
+        .instructions-box li { color: #374151; margin-bottom: 0.5rem; padding-left: 1.5rem; position: relative; }
+        .instructions-box li:before { content: "✓"; position: absolute; left: 0; font-weight: 700; }
+        .name-input-box { background: #fed7aa; border: 4px solid #fb923c; border-radius: 0.75rem; padding: 1.5rem; margin-bottom: 1.5rem; }
+        .name-input-box p { color: #374151; font-size: 1.125rem; margin-bottom: 1rem; }
+        .name-input-box .example { color: #6b7280; margin-bottom: 0.5rem; }
+        .name-input-box .example-text { font-size: 1.125rem; font-weight: 700; color: #ea580c; }
+        .name-input { width: 100%; padding: 1rem; font-size: 1.125rem; border: 4px solid #d1d5db; border-radius: 0.75rem; margin-bottom: 1.5rem; font-family: 'Poppins', sans-serif; }
+        .name-input:focus { outline: none; border-color: #ea580c; }
+        .btn-primary { background: linear-gradient(135deg, #f97316, #ea580c); color: white; padding: 1rem 3rem; border-radius: 0.75rem; font-size: 1.25rem; font-weight: 700; border: none; cursor: pointer; transition: all 0.3s ease; }
+        .btn-primary:hover { box-shadow: 0 20px 40px rgba(249,115,22,0.3); transform: scale(1.05); }
+        .btn-primary:disabled { background: #d1d5db; color: #9ca3af; cursor: not-allowed; transform: none; }
+        .quiz-progress { margin-bottom: 1.5rem; }
+        .progress-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; }
+        .progress-text { color: #6b7280; font-weight: 600; }
+        .timer { display: flex; align-items: center; gap: 0.5rem; }
+        .timer-text { font-weight: 700; font-size: 1.25rem; color: #1f2937; }
+        .timer-text.warning { color: #ef4444; animation: pulse 2s cubic-bezier(0.4,0,0.6,1) infinite; }
+        .progress-bar { width: 100%; background: #e5e7eb; border-radius: 9999px; height: 12px; overflow: hidden; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, #f97316, #ef4444); transition: width 0.3s ease; }
+        .question-box { margin-bottom: 2rem; }
+        .question-text { font-size: 1.5rem; font-weight: 700; color: #1f2937; margin-bottom: 1.5rem; text-align: left; }
+        .options-grid { display: flex; flex-direction: column; gap: 1rem; }
+        .option-button { width: 100%; padding: 1.25rem; border-radius: 0.75rem; text-align: left; font-size: 1.125rem; font-weight: 600; border: none; cursor: pointer; transition: all 0.2s ease; background: #f3f4f6; color: #1f2937; position: relative; overflow: hidden; }
+        .option-button:hover { background: #e5e7eb; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .option-button.selected { background: linear-gradient(135deg, #f97316, #ef4444); color: white; box-shadow: 0 10px 25px rgba(249,115,22,0.3); transform: scale(1.02); }
+        .results-card { text-align: center; }
+        .results-icon { width: 128px; height: 128px; margin: 0 auto 1.5rem; font-size: 8rem; }
+        .results-title { font-size: 2.5rem; font-weight: 700; color: #1f2937; margin-bottom: 1rem; }
+        .score-card { background: linear-gradient(135deg, #f97316, #ef4444); color: white; border-radius: 1rem; padding: 2rem; max-width: 600px; margin: 0 auto 1.5rem; border: 4px solid #ea580c; }
+        .student-info { background: rgba(255,255,255,0.2); border-radius: 0.75rem; padding: 1rem; margin-bottom: 1rem; }
+        .student-info .label { font-size: 1.25rem; margin-bottom: 0.5rem; font-weight: 600; }
+        .student-info .name { font-size: 1.875rem; font-weight: 700; }
+        .score-display { background: rgba(255,255,255,0.2); border-radius: 0.75rem; padding: 1.5rem; }
+        .score-display .label { font-size: 1.5rem; margin-bottom: 0.5rem; }
+        .score-display .score { font-size: 5rem; font-weight: 700; }
+        .score-display .fraction { font-size: 1.25rem; margin-top: 0.5rem; }
+        .score-display .date { font-size: 0.875rem; margin-top: 1rem; opacity: 0.9; }
+        .instructions-card { max-width: 900px; margin: 2rem auto 0; }
+        .instructions-card h3 { font-size: 1.5rem; font-weight: 700; color: #1f2937; text-align: center; margin-bottom: 1.5rem; }
+        .capture-instructions { background: #d1fae5; border: 4px solid #34d399; border-radius: 0.75rem; padding: 1.5rem; }
+        .capture-header { display: flex; gap: 1rem; align-items: flex-start; }
+        .capture-icon { width: 40px; height: 40px; flex-shrink: 0; margin-top: 0.25rem; }
+        .capture-content h4 { font-weight: 700; font-size: 1.5rem; color: #1f2937; margin-bottom: 0.75rem; }
+        .capture-content p { color: #374151; font-size: 1.125rem; margin-bottom: 1rem; }
+        .capture-content ol { list-style-position: inside; color: #374151; font-size: 1.125rem; margin-bottom: 1.5rem; }
+        .capture-content ol li { font-weight: 600; margin-bottom: 0.75rem; }
+        .classroom-box { background: white; padding: 1.25rem; border-radius: 0.5rem; border: 2px solid #10b981; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .classroom-box .title { font-weight: 700; font-size: 1.25rem; color: #1f2937; margin-bottom: 0.75rem; text-align: center; }
+        .classroom-box .alert { background: #d1fae5; padding: 1rem; border-radius: 0.5rem; text-align: center; }
+        .classroom-box .alert p { color: #374151; margin-bottom: 0.5rem; }
+        .classroom-box .alert strong { color: #059669; }
+        .summary-section { max-width: 900px; margin: 2rem auto 0; }
+        .summary-section h3 { font-size: 1.5rem; font-weight: 700; color: #1f2937; margin-bottom: 1rem; }
+        .summary-grid { display: flex; flex-direction: column; gap: 0.75rem; }
+        .summary-item { padding: 1rem; border-radius: 0.5rem; border-left: 4px solid; }
+        .summary-item.correct { background: #d1fae5; border-color: #10b981; }
+        .summary-item.incorrect { background: #fee2e2; border-color: #ef4444; }
+        .summary-item-content { display: flex; align-items: center; gap: 0.75rem; }
+        .summary-icon.correct { color: #10b981; }
+        .summary-icon.incorrect { color: #ef4444; }
+        .summary-text { color: #1f2937; }
+        .footer { max-width: 1200px; margin: 3rem auto 0; text-align: center; color: #6b7280; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
+        @media (max-width: 768px) {
+            .header h1 { font-size: 2rem; }
+            .header-icon { width: 64px; height: 64px; font-size: 2rem; }
+            .tab-button { font-size: 1rem; padding: 0.75rem 1rem; }
+            .quiz-title { font-size: 2rem; }
+            .score-display .score { font-size: 4rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="header-content">
+                <div>
+                    <h1>Operaciones con Monomios</h1>
+                    <p>Pensamiento Matemático II - Sesión 3</p>
+                    <p class="subtitle">Prof. Adrián Cruz</p>
+                </div>
+                <div class="header-icon">⚙️</div>
+            </div>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-button active" onclick="showTab('teoria')">📖 Teoría</button>
+            <button class="tab-button" onclick="showTab('explorador')">🔍 Explorador Interactivo</button>
+        </div>
+
+        <!-- TEORÍA -->
+        <div id="teoria" class="content-section active">
+            <div class="card teoria-card">
+                <div class="teoria-header">
+                    <span style="font-size: 2rem;">⚠️</span>
+                    <h2>📝 Copia en tu cuaderno</h2>
+                </div>
+
+                <div class="copy-box">
+                    <h3>Reglas de exponentes y de signos</h3>
+                    <div class="rules-grid">
+                        <div class="rule-item"><p class="label">Multiplicar potencias de la misma base: se SUMAN los exponentes</p><p class="formula mono">xᵃ · xᵇ = xᵃ⁺ᵇ</p></div>
+                        <div class="rule-item"><p class="label">Dividir potencias de la misma base: se RESTAN los exponentes</p><p class="formula mono">xᵃ ÷ xᵇ = xᵃ⁻ᵇ</p></div>
+                        <div class="rule-item"><p class="label">Regla de signos (multiplicación y división)</p><p class="formula mono">(+)(+)=+  (+)(−)=−  (−)(−)=+</p></div>
+                    </div>
+                </div>
+
+                <div class="copy-box">
+                    <h3>① Suma y resta de monomios semejantes</h3>
+                    <p>Solo se pueden sumar/restar monomios con <strong>la misma variable y el mismo exponente</strong> (términos semejantes). Se suman/restan los coeficientes y la variable no cambia.</p>
+                    <div class="concept-card">
+                        <p class="mono"><strong>9x²y − 4x²y + 6x²y = (9 − 4 + 6)x²y = 11x²y</strong></p>
+                    </div>
+                </div>
+
+                <div class="copy-box">
+                    <h3>② Multiplicación de monomios</h3>
+                    <p>Se multiplican los coeficientes, y se suman los exponentes de las variables iguales.</p>
+                    <div class="concept-card">
+                        <p class="mono">(2a²b)(−3ab²)(a³b)</p>
+                        <div class="steps-list">
+                            <p>Coeficientes: 2 × (−3) × 1 = −6</p>
+                            <p>Exponentes de a: 2 + 1 + 3 = 6</p>
+                            <p>Exponentes de b: 1 + 2 + 1 = 4</p>
+                        </div>
+                        <p class="mono"><strong>Resultado: −6a⁶b⁴</strong></p>
+                    </div>
+                </div>
+
+                <div class="copy-box">
+                    <h3>③ División de monomios</h3>
+                    <p>Se dividen los coeficientes, y se restan los exponentes de las variables iguales.</p>
+                    <div class="concept-card">
+                        <p class="mono">15x⁵y³ ÷ 3x²y</p>
+                        <div class="steps-list">
+                            <p>Coeficientes: 15 ÷ 3 = 5</p>
+                            <p>Exponente de x: 5 − 2 = 3</p>
+                            <p>Exponente de y: 3 − 1 = 2</p>
+                        </div>
+                        <p class="mono"><strong>Resultado: 5x³y²</strong></p>
+                    </div>
+                </div>
+
+                <div class="copy-box">
+                    <h3>④ Monomios con coeficientes fraccionarios</h3>
+                    <p>Se multiplican o dividen las fracciones igual que con números, y las variables siguen las mismas reglas de exponentes.</p>
+                    <div class="concept-card">
+                        <p class="mono">(−2/3 x²y)(−4/5 xy²)</p>
+                        <div class="steps-list">
+                            <p>Fracciones: (−2/3)(−4/5) = 8/15</p>
+                            <p>Exponente de x: 2 + 1 = 3</p>
+                            <p>Exponente de y: 1 + 2 = 3</p>
+                        </div>
+                        <p class="mono"><strong>Resultado: 8/15 x³y³</strong></p>
+                    </div>
+                </div>
+
+                <div class="copy-box">
+                    <h3>⑤ Factorización de monomios (factor común)</h3>
+                    <p>Se busca el número más grande que divide a todos los coeficientes, y la variable con el exponente MÁS PEQUEÑO que se repite en todos los términos.</p>
+                    <div class="concept-card">
+                        <p class="mono">6x³y² − 9x²y³ + 12x²y</p>
+                        <div class="steps-list">
+                            <p>MCD de 6, 9 y 12 = 3</p>
+                            <p>Variable común: x² (el exponente más chico de x) y y (el exponente más chico de y)</p>
+                        </div>
+                        <p class="mono"><strong>Resultado: 3x²y(2xy − 3y² + 4)</strong></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- EXPLORADOR -->
+        <div id="explorador" class="content-section">
+            <div class="card explorador-card">
+                <div class="explorador-header">
+                    <h2>🔍 Explorador — Práctica guiada</h2>
+                    <p>Resuelve estos 5 ejercicios siguiendo los mismos pasos de la teoría. <strong>Cópialos completos (incluyendo el procedimiento) en tu cuaderno.</strong></p>
+                </div>
+                <div class="examples-grid">
+
+                    <div class="example-card orange">
+                        <div class="example-header">
+                            <div class="example-number orange">1</div>
+                            <div class="example-content">
+                                <h3 class="example-title">🌱 Dos huertos en Xochimilco</h3>
+                                <div class="example-drawing"><div class="emoji">🥬</div><p class="caption">Dibuja dos parcelas rectangulares</p></div>
+                                <p class="example-situation"><strong>Situación:</strong> Un huerto produce 8x²y kg de verdura y otro, más pequeño, 3x²y kg. Si al segundo se le resta una plaga que afecta 2x²y kg:</p>
+                                <div class="formula-box orange"><p class="label">Producción total:</p><p class="formula mono">8x²y + 3x²y − 2x²y = ?</p></div>
+                                <div class="components-box"><span class="tag">Tipo: suma y resta de semejantes</span><span class="tag">Resuélvelo en tu cuaderno</span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="example-card blue">
+                        <div class="example-header">
+                            <div class="example-number blue">2</div>
+                            <div class="example-content">
+                                <h3 class="example-title">📦 Bodega en Tláhuac</h3>
+                                <div class="example-drawing"><div class="emoji">📐</div><p class="caption">Dibuja una caja con tres medidas</p></div>
+                                <p class="example-situation"><strong>Situación:</strong> El volumen de una bodega se calcula multiplicando tres medidas: (4x²)(−2xy)(3y²)</p>
+                                <div class="formula-box blue"><p class="formula mono">(4x²)(−2xy)(3y²) = ?</p></div>
+                                <div class="components-box"><span class="tag">Tipo: multiplicación en cadena</span><span class="tag">Multiplica coeficientes y suma exponentes</span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="example-card green">
+                        <div class="example-header">
+                            <div class="example-number green">3</div>
+                            <div class="example-content">
+                                <h3 class="example-title">➗ Reparto de terreno en Tlalpan</h3>
+                                <div class="example-drawing"><div class="emoji">🏞️</div><p class="caption">Dibuja un terreno dividido en partes iguales</p></div>
+                                <p class="example-situation"><strong>Situación:</strong> Un terreno de área 24x⁴y³ se divide entre 6x y²:</p>
+                                <div class="formula-box green"><p class="formula mono">24x⁴y³ ÷ 6xy² = ?</p></div>
+                                <div class="components-box"><span class="tag">Tipo: división de monomios</span><span class="tag">Divide coeficientes y resta exponentes</span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="example-card purple">
+                        <div class="example-header">
+                            <div class="example-number purple">4</div>
+                            <div class="example-content">
+                                <h3 class="example-title">🍞 Receta a escala en una panadería de Coyoacán</h3>
+                                <div class="example-drawing"><div class="emoji">🥖</div><p class="caption">Dibuja bolsas de harina fraccionadas</p></div>
+                                <p class="example-situation"><strong>Situación:</strong> Para ajustar una receta se multiplican dos cantidades fraccionarias de ingredientes:</p>
+                                <div class="formula-box purple"><p class="formula mono">(3/4 x y²)(2/5 x²y) = ?</p></div>
+                                <div class="components-box"><span class="tag">Tipo: monomios con fracciones</span><span class="tag">Multiplica las fracciones y suma exponentes</span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="example-card red">
+                        <div class="example-header">
+                            <div class="example-number red">5</div>
+                            <div class="example-content">
+                                <h3 class="example-title">🧩 Factoriza el material sobrante</h3>
+                                <div class="example-drawing"><div class="emoji">🔩</div><p class="caption">Dibuja piezas agrupadas por tamaño</p></div>
+                                <p class="example-situation"><strong>Situación:</strong> Un taller registra el sobrante de tres materiales con la expresión:</p>
+                                <div class="formula-box red"><p class="formula mono">10x³y² − 15x²y³ + 20x²y</p></div>
+                                <div class="components-box"><span class="tag">Tipo: factorización (factor común)</span><span class="tag">Busca el MCD y la variable común de menor exponente</span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>Pensamiento Matemático II - Sesión 3 | Prof. Adrián Cruz</p>
+            <p style="margin-top:0.5rem; font-size:0.95rem;">➡️ El Quiz de práctica se encuentra en un archivo separado: <strong>Sesion3_Operaciones_Monomios-quiz.html</strong></p>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+    </script>
+</body>
+</html>
