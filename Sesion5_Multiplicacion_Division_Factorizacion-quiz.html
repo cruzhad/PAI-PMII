@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multiplicación, División y Factorización de Polinomios - Quiz | Pensamiento Matemático II</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Poppins', sans-serif; min-height: 100vh; background: linear-gradient(135deg, #fff7ed 0%, #fef3c7 50%, #fef2f2 100%); padding: 1rem; }
+        .mono { font-family: 'Space Mono', monospace; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .header { background: white; border-radius: 1.5rem; box-shadow: 0 20px 50px rgba(0,0,0,0.1); padding: 2rem; margin-bottom: 2rem; border: 4px solid #fb923c; animation: fadeIn 0.5s ease-in; }
+        .header-content { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+        .header h1 { font-size: 2rem; font-weight: 800; background: linear-gradient(135deg, #ea580c, #dc2626); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 0.5rem; }
+        .header p { color: #6b7280; font-size: 1.125rem; }
+        .header .subtitle { color: #ea580c; font-weight: 600; margin-top: 0.25rem; }
+        .header-icon { background: linear-gradient(135deg, #fb923c, #ef4444); padding: 1rem; border-radius: 1rem; width: 80px; height: 80px; display: flex; align-items: center; justify-content: center; font-size: 3rem; }
+        .exam-badge { background: #fee2e2; border: 3px solid #ef4444; border-radius: 0.75rem; padding: 0.75rem 1rem; margin-top: 1rem; font-weight: 700; color: #7f1d1d; font-size: 0.95rem; }
+        .tabs { display: flex; gap: 0.75rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+        .tab-button { display: flex; align-items: center; gap: 0.5rem; padding: 1rem 1.5rem; border-radius: 0.75rem; font-weight: 700; font-size: 1.125rem; border: none; cursor: pointer; transition: all 0.3s cubic-bezier(0.4,0,0.2,1); background: white; color: #374151; }
+        .tab-button:hover { transform: translateY(-2px); background: #fed7aa; }
+        .tab-button.active { background: linear-gradient(135deg, #f97316, #ea580c); color: white; box-shadow: 0 10px 25px rgba(249,115,22,0.3); }
+        .content-section { display: none; animation: fadeIn 0.5s ease-in; }
+        .content-section.active { display: block; }
+        .card { background: white; border-radius: 1rem; box-shadow: 0 10px 30px rgba(0,0,0,0.1); padding: 2rem; transition: all 0.3s ease; }
+        .card:hover { transform: translateY(-4px); box-shadow: 0 20px 40px rgba(0,0,0,0.15); }
+        .teoria-card { border-left: 8px solid #ea580c; }
+        .teoria-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; }
+        .teoria-header h2 { font-size: 1.875rem; font-weight: 700; color: #1f2937; }
+        .copy-box { background: #fef3c7; border: 4px solid #fbbf24; border-radius: 0.75rem; padding: 1.5rem; margin-bottom: 1.5rem; }
+        .copy-box h3 { color: #c2410c; font-size: 1.5rem; font-weight: 700; margin-bottom: 0.35rem; }
+        .exam-tag { display: inline-block; background: #ef4444; color: white; font-size: 0.8rem; font-weight: 700; padding: 0.2rem 0.6rem; border-radius: 9999px; margin-bottom: 0.75rem; }
+        .copy-box p { color: #374151; font-size: 1.125rem; line-height: 1.75; margin-bottom: 1rem; }
+        .concept-card { background: white; padding: 1rem; border-radius: 0.5rem; border-left: 4px solid #fb923c; margin-bottom: 1rem; }
+        .steps-list p { margin-bottom: 0.35rem; color: #374151; }
+        .explorador-card { border-top: 8px solid #ea580c; }
+        .explorador-header { margin-bottom: 1.5rem; }
+        .explorador-header h2 { font-size: 1.875rem; font-weight: 700; color: #1f2937; margin-bottom: 0.5rem; }
+        .explorador-header p { font-size: 1.125rem; color: #6b7280; }
+        .explorador-header strong { color: #ea580c; }
+        .examples-grid { display: flex; flex-direction: column; gap: 1.5rem; }
+        .example-card { border-radius: 0.75rem; padding: 1.5rem; border: 4px solid; transition: all 0.3s ease; }
+        .example-card:hover { transform: translateY(-4px); box-shadow: 0 20px 40px rgba(0,0,0,0.15); }
+        .example-card.orange { background: linear-gradient(135deg, #fed7aa, #fef3c7); border-color: #fb923c; }
+        .example-card.blue { background: linear-gradient(135deg, #dbeafe, #cffafe); border-color: #60a5fa; }
+        .example-card.green { background: linear-gradient(135deg, #d1fae5, #a7f3d0); border-color: #34d399; }
+        .example-card.purple { background: linear-gradient(135deg, #e9d5ff, #fbcfe8); border-color: #a855f7; }
+        .example-card.red { background: linear-gradient(135deg, #fecaca, #fed7aa); border-color: #ef4444; }
+        .example-header { display: flex; gap: 1rem; align-items: flex-start; }
+        .example-number { color: white; border-radius: 50%; width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.25rem; flex-shrink: 0; }
+        .example-number.orange { background: #ea580c; }
+        .example-number.blue { background: #3b82f6; }
+        .example-number.green { background: #10b981; }
+        .example-number.purple { background: #a855f7; }
+        .example-number.red { background: #ef4444; }
+        .example-content { flex: 1; }
+        .example-title { font-size: 1.4rem; font-weight: 700; color: #1f2937; margin-bottom: 0.5rem; }
+        .example-situation { color: #374151; font-size: 1.05rem; margin-bottom: 0.75rem; }
+        .formula-box { background: white; padding: 1rem; border-radius: 0.5rem; margin-bottom: 0.75rem; }
+        .formula-box .formula { font-size: 1.4rem; font-weight: 700; }
+        .formula-box.orange .formula { color: #ea580c; }
+        .formula-box.blue .formula { color: #3b82f6; }
+        .formula-box.green .formula { color: #10b981; }
+        .formula-box.purple .formula { color: #a855f7; }
+        .formula-box.red .formula { color: #ef4444; }
+        .components-box { background: #f3f4f6; border-radius: 0.5rem; padding: 1rem; margin-top: 0.75rem; }
+        .components-box .tag { display: inline-block; background: white; border-radius: 9999px; padding: 0.35rem 0.9rem; margin: 0.2rem; font-size: 0.9rem; font-weight: 600; color: #1f2937; border: 2px solid #e5e7eb; }
+        .quiz-container { background: white; border-radius: 1rem; box-shadow: 0 10px 30px rgba(0,0,0,0.1); padding: 2rem; text-align: center; }
+        .quiz-icon { width: 96px; height: 96px; margin: 0 auto 1.5rem; font-size: 5rem; }
+        .quiz-title { font-size: 2.5rem; font-weight: 700; color: #1f2937; margin-bottom: 1rem; }
+        .quiz-subtitle { font-size: 1.25rem; color: #6b7280; margin-bottom: 1.5rem; }
+        .instructions-box { background: #fef3c7; border: 4px solid #fbbf24; border-radius: 0.75rem; padding: 1.5rem; margin-bottom: 2rem; max-width: 600px; margin-left: auto; margin-right: auto; }
+        .instructions-box h3 { font-weight: 700; font-size: 1.125rem; color: #1f2937; margin-bottom: 0.75rem; }
+        .instructions-box ul { text-align: left; list-style: none; padding-left: 0; }
+        .instructions-box li { color: #374151; margin-bottom: 0.5rem; padding-left: 1.5rem; position: relative; }
+        .instructions-box li:before { content: "✓"; position: absolute; left: 0; font-weight: 700; }
+        .name-input-box { background: #fed7aa; border: 4px solid #fb923c; border-radius: 0.75rem; padding: 1.5rem; margin-bottom: 1.5rem; }
+        .name-input-box p { color: #374151; font-size: 1.125rem; margin-bottom: 1rem; }
+        .name-input-box .example { color: #6b7280; margin-bottom: 0.5rem; }
+        .name-input-box .example-text { font-size: 1.125rem; font-weight: 700; color: #ea580c; }
+        .name-input { width: 100%; padding: 1rem; font-size: 1.125rem; border: 4px solid #d1d5db; border-radius: 0.75rem; margin-bottom: 1.5rem; font-family: 'Poppins', sans-serif; }
+        .name-input:focus { outline: none; border-color: #ea580c; }
+        .btn-primary { background: linear-gradient(135deg, #f97316, #ea580c); color: white; padding: 1rem 3rem; border-radius: 0.75rem; font-size: 1.25rem; font-weight: 700; border: none; cursor: pointer; transition: all 0.3s ease; }
+        .btn-primary:hover { box-shadow: 0 20px 40px rgba(249,115,22,0.3); transform: scale(1.05); }
+        .btn-primary:disabled { background: #d1d5db; color: #9ca3af; cursor: not-allowed; transform: none; }
+        .quiz-progress { margin-bottom: 1.5rem; }
+        .progress-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; }
+        .progress-text { color: #6b7280; font-weight: 600; }
+        .timer { display: flex; align-items: center; gap: 0.5rem; }
+        .timer-text { font-weight: 700; font-size: 1.25rem; color: #1f2937; }
+        .timer-text.warning { color: #ef4444; animation: pulse 2s cubic-bezier(0.4,0,0.6,1) infinite; }
+        .progress-bar { width: 100%; background: #e5e7eb; border-radius: 9999px; height: 12px; overflow: hidden; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, #f97316, #ef4444); transition: width 0.3s ease; }
+        .question-box { margin-bottom: 2rem; }
+        .question-text { font-size: 1.5rem; font-weight: 700; color: #1f2937; margin-bottom: 1.5rem; text-align: left; }
+        .options-grid { display: flex; flex-direction: column; gap: 1rem; }
+        .option-button { width: 100%; padding: 1.25rem; border-radius: 0.75rem; text-align: left; font-size: 1.125rem; font-weight: 600; border: none; cursor: pointer; transition: all 0.2s ease; background: #f3f4f6; color: #1f2937; position: relative; overflow: hidden; }
+        .option-button:hover { background: #e5e7eb; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .option-button.selected { background: linear-gradient(135deg, #f97316, #ef4444); color: white; box-shadow: 0 10px 25px rgba(249,115,22,0.3); transform: scale(1.02); }
+        .results-card { text-align: center; }
+        .results-icon { width: 128px; height: 128px; margin: 0 auto 1.5rem; font-size: 8rem; }
+        .results-title { font-size: 2.5rem; font-weight: 700; color: #1f2937; margin-bottom: 1rem; }
+        .score-card { background: linear-gradient(135deg, #f97316, #ef4444); color: white; border-radius: 1rem; padding: 2rem; max-width: 600px; margin: 0 auto 1.5rem; border: 4px solid #ea580c; }
+        .student-info { background: rgba(255,255,255,0.2); border-radius: 0.75rem; padding: 1rem; margin-bottom: 1rem; }
+        .student-info .label { font-size: 1.25rem; margin-bottom: 0.5rem; font-weight: 600; }
+        .student-info .name { font-size: 1.875rem; font-weight: 700; }
+        .score-display { background: rgba(255,255,255,0.2); border-radius: 0.75rem; padding: 1.5rem; }
+        .score-display .label { font-size: 1.5rem; margin-bottom: 0.5rem; }
+        .score-display .score { font-size: 5rem; font-weight: 700; }
+        .score-display .fraction { font-size: 1.25rem; margin-top: 0.5rem; }
+        .score-display .date { font-size: 0.875rem; margin-top: 1rem; opacity: 0.9; }
+        .instructions-card { max-width: 900px; margin: 2rem auto 0; }
+        .instructions-card h3 { font-size: 1.5rem; font-weight: 700; color: #1f2937; text-align: center; margin-bottom: 1.5rem; }
+        .capture-instructions { background: #d1fae5; border: 4px solid #34d399; border-radius: 0.75rem; padding: 1.5rem; }
+        .capture-header { display: flex; gap: 1rem; align-items: flex-start; }
+        .capture-icon { width: 40px; height: 40px; flex-shrink: 0; margin-top: 0.25rem; }
+        .capture-content h4 { font-weight: 700; font-size: 1.5rem; color: #1f2937; margin-bottom: 0.75rem; }
+        .capture-content p { color: #374151; font-size: 1.125rem; margin-bottom: 1rem; }
+        .capture-content ol { list-style-position: inside; color: #374151; font-size: 1.125rem; margin-bottom: 1.5rem; }
+        .capture-content ol li { font-weight: 600; margin-bottom: 0.75rem; }
+        .classroom-box { background: white; padding: 1.25rem; border-radius: 0.5rem; border: 2px solid #10b981; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .classroom-box .title { font-weight: 700; font-size: 1.25rem; color: #1f2937; margin-bottom: 0.75rem; text-align: center; }
+        .classroom-box .alert { background: #d1fae5; padding: 1rem; border-radius: 0.5rem; text-align: center; }
+        .classroom-box .alert p { color: #374151; margin-bottom: 0.5rem; }
+        .classroom-box .alert strong { color: #059669; }
+        .summary-section { max-width: 900px; margin: 2rem auto 0; }
+        .summary-section h3 { font-size: 1.5rem; font-weight: 700; color: #1f2937; margin-bottom: 1rem; }
+        .summary-grid { display: flex; flex-direction: column; gap: 0.75rem; }
+        .summary-item { padding: 1rem; border-radius: 0.5rem; border-left: 4px solid; }
+        .summary-item.correct { background: #d1fae5; border-color: #10b981; }
+        .summary-item.incorrect { background: #fee2e2; border-color: #ef4444; }
+        .summary-item-content { display: flex; align-items: center; gap: 0.75rem; }
+        .summary-icon.correct { color: #10b981; }
+        .summary-icon.incorrect { color: #ef4444; }
+        .summary-text { color: #1f2937; }
+        .footer { max-width: 1200px; margin: 3rem auto 0; text-align: center; color: #6b7280; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
+        @media (max-width: 768px) {
+            .header h1 { font-size: 1.5rem; }
+            .header-icon { width: 64px; height: 64px; font-size: 2rem; }
+            .tab-button { font-size: 1rem; padding: 0.75rem 1rem; }
+            .quiz-title { font-size: 2rem; }
+            .score-display .score { font-size: 4rem; }
+        }
+    </style>
+
+    <style>
+        /* ===== MEDIDAS ANTIFRAUDE / ANTI-COPIA ===== */
+        html, body {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            -webkit-touch-callout: none;
+        }
+
+        #student-name {
+            -webkit-user-select: text;
+            -moz-user-select: text;
+            -ms-user-select: text;
+            user-select: text;
+        }
+
+        img {
+            -webkit-user-drag: none;
+            user-drag: none;
+            pointer-events: none;
+        }
+
+        .security-banner {
+            background: #fee2e2;
+            border: 3px solid #ef4444;
+            border-radius: 0.75rem;
+            padding: 1rem 1.5rem;
+            margin-bottom: 1.5rem;
+            color: #991b1b;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .security-warning-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(17, 24, 39, 0.92);
+            color: white;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            text-align: center;
+            padding: 2rem;
+            z-index: 9999;
+        }
+
+        .security-warning-overlay.show {
+            display: flex;
+        }
+
+        .security-warning-overlay h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .security-warning-overlay p {
+            font-size: 1.125rem;
+            max-width: 500px;
+            margin-bottom: 1.5rem;
+        }
+
+        .exit-counter {
+            position: fixed;
+            bottom: 1rem;
+            right: 1rem;
+            background: #1f2937;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            font-size: 0.85rem;
+            font-family: 'Space Mono', monospace;
+            opacity: 0.85;
+            z-index: 100;
+        }
+    </style>
+</head>
+<body oncontextmenu="return false;">
+    <div class="security-warning-overlay" id="security-overlay">
+        <h2>⚠️ Ventana fuera de foco</h2>
+        <p>Se detectó que saliste de esta pestaña o ventana durante el quiz. Este evento fue registrado. Regresa para continuar.</p>
+        <button class="btn-primary" onclick="dismissWarning()">Entendido, continuar</button>
+    </div>
+
+    <div class="exit-counter" id="exit-counter" style="display:none;">Salidas detectadas: <span id="exit-count">0</span></div>
+
+    <div class="container">
+        <div class="header">
+            <div class="header-content">
+                <div>
+                    <h1>Multiplicación, División, Productos Notables y Factorización de Polinomios</h1>
+                    <p>Pensamiento Matemático II - Sesión 5</p>
+                    <p class="subtitle">Prof. Adrián Cruz</p>
+                </div>
+                <div class="header-icon">🏆</div>
+            </div>
+            <div class="exam-badge">📌 Esta sesión cubre el bloque más pesado del examen extraordinario (reactivos 10 al 16). No hay sesión 5.5: todo lo que necesitas está aquí.</div>
+        </div>
+
+        <div class="security-banner">
+            🔒 Este quiz cuenta con medidas de seguridad: no se permite copiar, pegar, seleccionar texto ni usar clic derecho. Los intentos de salir de la pestaña quedan registrados.
+        </div>
+
+        <div id="practica" class="content-section active">
+            <div id="quiz-start" class="quiz-container">
+                <div class="quiz-icon">🏆</div>
+                <h2 class="quiz-title">Quiz de Práctica</h2>
+                <p class="quiz-subtitle">15 preguntas de opción múltiple</p>
+                <div class="instructions-box">
+                    <h3>📋 Instrucciones:</h3>
+                    <ul>
+                        <li>Tendrás 4 minutos para responder cada pregunta</li>
+                        <li>Las preguntas y opciones aparecen en orden aleatorio</li>
+                        <li>Solo puedes realizar el quiz UNA vez</li>
+                        <li>Tu calificación se mostrará al final</li>
+                        <li>Asegúrate de registrar tu resultado</li>
+                    </ul>
+                </div>
+                <button class="btn-primary" onclick="showNameInput()">Comenzar Quiz</button>
+            </div>
+
+            <div id="name-input" class="quiz-container" style="display: none;">
+                <h2 class="quiz-title" style="font-size: 1.875rem; margin-bottom: 1.5rem;">Ingresa tu nombre completo</h2>
+                <div class="name-input-box">
+                    <p style="text-align: center;"><strong>Importante:</strong> Escribe tu nombre comenzando por tus apellidos</p>
+                    <p class="example" style="text-align: center;">Ejemplo:</p>
+                    <p class="example-text mono" style="text-align: center;">García Martínez Juan Carlos</p>
+                </div>
+                <input type="text" id="student-name" class="name-input" placeholder="Apellidos Nombre(s)" />
+                <button class="btn-primary" onclick="startQuiz()" style="width: 100%;">Iniciar Quiz</button>
+            </div>
+
+            <div id="quiz-questions" class="quiz-container" style="display: none;">
+                <div class="quiz-progress">
+                    <div class="progress-header">
+                        <span class="progress-text" id="progress-text">Pregunta 1 de 15</span>
+                        <div class="timer"><span style="font-size: 1.25rem;">⏱️</span><span class="timer-text" id="timer">240s</span></div>
+                    </div>
+                    <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width: 6.67%"></div></div>
+                </div>
+                <div class="question-box">
+                    <h3 class="question-text" id="question-text"></h3>
+                    <div class="options-grid" id="options-container"></div>
+                </div>
+                <div style="text-align: center;">
+                    <button class="btn-primary" id="next-btn" onclick="nextQuestion()" disabled>Siguiente Pregunta</button>
+                </div>
+            </div>
+
+            <div id="quiz-results" class="quiz-container" style="display: none;">
+                <div class="results-card">
+                    <div class="results-icon">🏆</div>
+                    <h2 class="results-title">¡Quiz Completado!</h2>
+                    <div class="score-card">
+                        <div class="student-info"><p class="label">Estudiante:</p><p class="name" id="result-student-name"></p></div>
+                        <div class="score-display">
+                            <p class="label">Tu calificación:</p>
+                            <p class="score" id="final-score">0.0</p>
+                            <p class="fraction" id="score-fraction">0 de 15 correctas</p>
+                            <p class="date" id="result-date"></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="instructions-card">
+                    <h3>📸 Registra tu resultado:</h3>
+                    <div class="capture-instructions">
+                        <div class="capture-header">
+                            <span class="capture-icon">📱</span>
+                            <div class="capture-content" style="flex: 1;">
+                                <h4>📱 Captura de Pantalla</h4>
+                                <p>Sigue estos pasos para registrar tu calificación:</p>
+                                <ol>
+                                    <li>Toma una captura de pantalla de esta página completa</li>
+                                    <li>Verifica que se vea claramente tu nombre y calificación</li>
+                                    <li>Sube tu captura a Google Classroom en la tarea correspondiente</li>
+                                </ol>
+                                <div class="classroom-box">
+                                    <p class="title">🎯 Entrega ÚNICAMENTE por Classroom</p>
+                                    <div class="alert"><p>No envíes por WhatsApp ni correo electrónico.</p><p><strong>Solo Google Classroom es válido.</strong></p></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="summary-section">
+                    <h3>📊 Resumen de tus respuestas:</h3>
+                    <div class="summary-grid" id="summary-container"></div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="footer">
+            <p>Pensamiento Matemático II - Sesión 5 | Prof. Adrián Cruz</p>
+            <p style="margin-top:0.5rem; font-size:0.95rem;">📖 La Teoría y el Explorador Interactivo están en un archivo separado: <strong>Sesion5_Multiplicacion_Division_Factorizacion-teoria.html</strong></p>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            { question: "Multiplica: (5a − 3b)(2a + b)", options: ["10a² − ab − 3b²", "10a² + ab − 3b²", "10a² − 5ab − 3b²", "7a² − ab − 3b²"], correct: 0 },
+            { question: "Multiplica: (2x − 5)(3x + 4)", options: ["6x² − 7x − 20", "6x² + 7x − 20", "6x² − 7x + 20", "5x² − 7x − 20"], correct: 0 },
+            { question: "Producto notable: (x + 6)(x − 6)", options: ["x² − 36", "x² + 36", "x² − 12x", "x² − 6"], correct: 0 },
+            { question: "Producto notable: (4p − 9)(4p + 9)", options: ["16p² − 81", "16p² + 81", "8p² − 81", "16p² − 18p"], correct: 0 },
+            { question: "Producto notable: (7m − 2n)(7m + 2n)", options: ["49m² − 4n²", "49m² + 4n²", "14m² − 4n²", "49m² − 2n²"], correct: 0 },
+            { question: "Divide: (20x⁴y³ − 15x³y² + 10x²y) ÷ 5x²y", options: ["4x²y² − 3xy + 2", "4x²y² − 3xy + 5", "4x²y − 3xy + 2", "4x²y² + 3xy + 2"], correct: 0 },
+            { question: "Divide: (9a³b² − 6a²b³ + 3a²b) ÷ 3a²b", options: ["3ab − 2b² + 1", "3ab − 2b² + 3", "3a b² − 2b² + 1", "3ab + 2b² + 1"], correct: 0 },
+            { question: "Divide: (15x⁴y³ − 10x³y² + 5x²y) ÷ 5x²y", options: ["3x²y² − 2xy + 1", "3x²y² − 2xy + 5", "3x²y − 2xy + 1", "3x²y² + 2xy + 1"], correct: 0 },
+            { question: "Resta: (3/4x − 1/2y) − (1/8x − 1/4y)", options: ["5/8x − 1/4y", "5/8x + 1/4y", "7/8x − 1/4y", "5/8x − 3/4y"], correct: 0 },
+            { question: "Multiplica: (1/2x + 2/3y)(1/2x − 2/3y)", options: ["1/4x² − 4/9y²", "1/4x² + 4/9y²", "1/2x² − 2/3y²", "1/4x² − 2/3y²"], correct: 0 },
+            { question: "Divide: (1/3m²n − 1/6mn²) ÷ (1/6mn)", options: ["2m − n", "2m + n", "m − n", "2m − 2n"], correct: 0 },
+            { question: "Factoriza: x² − 7x + 12", options: ["(x − 3)(x − 4)", "(x + 3)(x + 4)", "(x − 2)(x − 6)", "(x − 3)(x + 4)"], correct: 0 },
+            { question: "Factoriza: x² + 2x − 15", options: ["(x + 5)(x − 3)", "(x − 5)(x + 3)", "(x + 5)(x + 3)", "(x − 5)(x − 3)"], correct: 0 },
+            { question: "Factoriza: x² − x − 20", options: ["(x − 5)(x + 4)", "(x + 5)(x − 4)", "(x − 5)(x − 4)", "(x + 5)(x + 4)"], correct: 0 },
+            { question: "Factoriza: x² − 11x + 30", options: ["(x − 5)(x − 6)", "(x + 5)(x + 6)", "(x − 5)(x + 6)", "(x − 3)(x − 10)"], correct: 0 }
+        ];
+
+        let studentName = '';
+        let currentQuestion = 0;
+        let score = 0;
+        let timeLeft = 240;
+        let timer = null;
+        let shuffledOptions = [];
+        let answeredQuestions = [];
+        let selectedAnswer = null;
+        let quizOrder = [];
+
+        function showNameInput() {
+            document.getElementById('quiz-start').style.display = 'none';
+            document.getElementById('name-input').style.display = 'block';
+            document.getElementById('student-name').focus();
+        }
+
+        function startQuiz() {
+            const nameInput = document.getElementById('student-name');
+            studentName = nameInput.value.trim();
+            if (studentName === '') { alert('Por favor ingresa tu nombre completo (Apellidos, Nombre)'); return; }
+            document.getElementById('name-input').style.display = 'none';
+            document.getElementById('quiz-questions').style.display = 'block';
+            currentQuestion = 0; score = 0; answeredQuestions = [];
+            quizOrder = questions.map((q, idx) => idx);
+            for (let i = quizOrder.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [quizOrder[i], quizOrder[j]] = [quizOrder[j], quizOrder[i]]; }
+            loadQuestion();
+            startTimer();
+        }
+
+        function loadQuestion() {
+            if (currentQuestion >= quizOrder.length) { showResults(); return; }
+            const question = questions[quizOrder[currentQuestion]];
+            document.getElementById('progress-text').textContent = `Pregunta ${currentQuestion + 1} de ${quizOrder.length}`;
+            document.getElementById('progress-fill').style.width = (((currentQuestion + 1) / quizOrder.length) * 100) + '%';
+            document.getElementById('question-text').textContent = question.question;
+            shuffledOptions = question.options.map((opt, idx) => ({ text: opt, originalIndex: idx }));
+            for (let i = shuffledOptions.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [shuffledOptions[i], shuffledOptions[j]] = [shuffledOptions[j], shuffledOptions[i]]; }
+            const optionsContainer = document.getElementById('options-container');
+            optionsContainer.innerHTML = '';
+            shuffledOptions.forEach((option, idx) => {
+                const button = document.createElement('button');
+                button.className = 'option-button';
+                button.textContent = String.fromCharCode(65 + idx) + ') ' + option.text;
+                button.onclick = () => selectAnswer(idx);
+                optionsContainer.appendChild(button);
+            });
+            selectedAnswer = null; timeLeft = 240;
+            document.getElementById('next-btn').disabled = true;
+            updateTimer();
+        }
+
+        function selectAnswer(index) {
+            selectedAnswer = index;
+            document.querySelectorAll('.option-button').forEach((btn, idx) => btn.classList.toggle('selected', idx === index));
+            document.getElementById('next-btn').disabled = false;
+        }
+
+        function nextQuestion() {
+            const question = questions[quizOrder[currentQuestion]];
+            const isCorrect = selectedAnswer !== null && shuffledOptions[selectedAnswer].originalIndex === question.correct;
+            if (isCorrect) score++;
+            answeredQuestions.push({ question: currentQuestion, selected: selectedAnswer, correct: isCorrect });
+            currentQuestion++;
+            if (currentQuestion < quizOrder.length) loadQuestion(); else showResults();
+        }
+
+        function startTimer() {
+            timer = setInterval(() => {
+                timeLeft--; updateTimer();
+                if (timeLeft <= 0) { clearInterval(timer); nextQuestion(); }
+            }, 1000);
+        }
+
+        function updateTimer() {
+            const timerElement = document.getElementById('timer');
+            timerElement.textContent = timeLeft + 's';
+            timerElement.classList.toggle('warning', timeLeft <= 10);
+        }
+
+        function showResults() {
+            clearInterval(timer);
+            document.getElementById('quiz-questions').style.display = 'none';
+            document.getElementById('quiz-results').style.display = 'block';
+            const finalScore = ((score / quizOrder.length) * 10).toFixed(1);
+            document.getElementById('result-student-name').textContent = studentName;
+            document.getElementById('final-score').textContent = finalScore;
+            document.getElementById('score-fraction').textContent = `${score} de ${quizOrder.length} correctas`;
+            const now = new Date();
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('result-date').textContent = 'Fecha: ' + now.toLocaleDateString('es-MX', options);
+            const summaryContainer = document.getElementById('summary-container');
+            summaryContainer.innerHTML = '';
+            answeredQuestions.forEach((answer, idx) => {
+                const div = document.createElement('div');
+                div.className = 'summary-item ' + (answer.correct ? 'correct' : 'incorrect');
+                div.innerHTML = `<div class="summary-item-content"><span class="summary-icon ${answer.correct ? 'correct' : 'incorrect'}">${answer.correct ? '✓' : '✗'}</span><p class="summary-text"><strong>Pregunta ${idx + 1}:</strong> ${answer.correct ? 'Correcta' : 'Incorrecta'}</p></div>`;
+                summaryContainer.appendChild(div);
+            });
+        }
+
+        // ===================================================================
+        // MEDIDAS ANTIFRAUDE / ANTI-COPIA / ANTI-PEGADO
+        // ===================================================================
+
+        let exitCount = 0;
+        let quizInProgress = false;
+
+        function updateExitCounter() {
+            const counter = document.getElementById('exit-counter');
+            const countSpan = document.getElementById('exit-count');
+            if (exitCount > 0) {
+                counter.style.display = 'block';
+                countSpan.textContent = exitCount;
+            }
+        }
+
+        function dismissWarning() {
+            document.getElementById('security-overlay').classList.remove('show');
+        }
+
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+            return false;
+        });
+
+        ['copy', 'cut', 'paste', 'dragstart', 'drop'].forEach(function(evt) {
+            document.addEventListener(evt, function(e) {
+                if (e.target && e.target.id === 'student-name') return;
+                e.preventDefault();
+                return false;
+            });
+        });
+
+        document.addEventListener('selectstart', function(e) {
+            if (e.target && e.target.id === 'student-name') return;
+            e.preventDefault();
+            return false;
+        });
+
+        document.addEventListener('keydown', function(e) {
+            const key = e.key ? e.key.toLowerCase() : '';
+            const ctrlOrCmd = e.ctrlKey || e.metaKey;
+
+            if (key === 'f12') {
+                e.preventDefault();
+                return false;
+            }
+
+            if (ctrlOrCmd && ['c', 'x', 'v', 'a', 's', 'p', 'u'].includes(key)) {
+                if (e.target && e.target.id === 'student-name' && key === 'a') {
+                    return;
+                }
+                e.preventDefault();
+                return false;
+            }
+
+            if (ctrlOrCmd && e.shiftKey && ['i', 'j', 'c'].includes(key)) {
+                e.preventDefault();
+                return false;
+            }
+        });
+
+        document.addEventListener('visibilitychange', function() {
+            if (document.hidden && quizInProgress) {
+                exitCount++;
+                updateExitCounter();
+                document.getElementById('security-overlay').classList.add('show');
+            }
+        });
+
+        window.addEventListener('blur', function() {
+            if (quizInProgress) {
+                exitCount++;
+                updateExitCounter();
+                document.getElementById('security-overlay').classList.add('show');
+            }
+        });
+
+        const originalStartQuiz = startQuiz;
+        startQuiz = function() {
+            originalStartQuiz();
+            quizInProgress = true;
+        };
+
+        const originalShowResults = showResults;
+        showResults = function() {
+            quizInProgress = false;
+            originalShowResults();
+
+            const scoreDisplay = document.querySelector('.score-display');
+            if (scoreDisplay) {
+                const exitInfo = document.createElement('p');
+                exitInfo.className = 'fraction';
+                exitInfo.style.marginTop = '0.5rem';
+                exitInfo.textContent = `Salidas de pantalla detectadas: ${exitCount}`;
+                scoreDisplay.appendChild(exitInfo);
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', function() {
+            updateExitCounter();
+        });
+    </script>
+</body>
+</html>
